@@ -1,4 +1,4 @@
-#include<iostream>
+ï»¿#include<iostream>
 
 using namespace std;
 
@@ -14,7 +14,7 @@ void main()
 {
 	setlocale(LC_ALL, "");
 	int n;
-	cout << "Ââåäèòå ðàçìåð ìàññèâà:"; cin >> n;
+	cout << "Ð’Ð²ÐµÐ´Ð¸Ñ‚Ðµ Ñ€Ð°Ð·Ð¼ÐµÑ€ Ð¼Ð°ÑÑÐ¸Ð²Ð°:"; cin >> n;
 	int* arr = new int[n];
 	Fillrand(arr, n);
 	Print(arr, n);
@@ -30,7 +30,7 @@ void main()
 void Fillrand(int arr[], const int n)
 {
 	for (int i = 0; i < n; i++)
-    {//*- îïåðàòîð ðàçûìåíîâàíè âîçâîëùàåò çíà÷åíèå ïî àäðåñó
+    {//*- Ð¾Ð¿ÐµÑ€Ð°Ñ‚Ð¾Ñ€ Ñ€Ð°Ð·Ñ‹Ð¼ÐµÐ½Ð¾Ð²Ð°Ð½Ð¸ Ð²Ð¾Ð·Ð²Ð¾Ð»Ñ‰Ð°ÐµÑ‚ Ð·Ð½Ð°Ñ‡ÐµÐ½Ð¸Ðµ Ð¿Ð¾ Ð°Ð´Ñ€ÐµÑÑƒ
 	 *(arr + i) = rand() % 100;
     }
 }
