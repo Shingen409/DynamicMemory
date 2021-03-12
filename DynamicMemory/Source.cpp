@@ -1,6 +1,5 @@
 ﻿#include<iostream>
-#include
-//using namespace std;
+using namespace std;
 
 using std::cin;
 using std::cout;
@@ -10,10 +9,11 @@ using std::endl;
 template<typename T>T** Allocate(const int m, const int n);
 template<typename T>void Clear(T** arr, const int m);
 
-
+template<typename T>void Random(T& value);
 
 template<typename T>void FillRand(T* arr, const int n);
 template<typename T>void FillRand(T** arr, const int m, const int n);
+
 template<typename T>void Print(T arr[], const int n);
 template<typename T>void Print(T** arr, const int m, const int n);
 
@@ -90,8 +90,8 @@ void main()
 	//////////////////////////////////////////////////////////////////////////////////
 	////////////////////////		ОБЪЯВЛЕНИЕ МАССИВА		//////////////////////////
 	//////////////////////////////////////////////////////////////////////////////////
-
-	double** arr = Allocate<double>(m, n);
+	typedef float Datatype;
+	Datatype** arr = Allocate<Datatype>(m, n);
 
 	//////////////////////////////////////////////////////////////////////////////////
 	///////////////////////		ИСПОЛЬЗОВАНИЕ МАССИВА		//////////////////////////
@@ -146,12 +146,23 @@ template<typename T>void Clear(T** arr, const int m)
 	//2) Удаляем массив указателей:
 	delete[] arr;
 }
+template<typename T>void Random(T& value)
+{
+	/*cout << typeid(value).name()<<"ghbfdge" << endl;*/
+
+	if (typeid(value) == typeid(float) || typeid(value) == typeid(double))
+		value = double(rand() % 10000) / 100;
+	else if (typeid(value) == typeid(char))
+			value == rand();
+	else
+			value = rand() % 100;
+}
 template<typename T>void FillRand(T* arr, const int n)
 {
 	for (int i = 0; i < n; i++)
 	{
 		//* - оператор разыменования, возвращает значение по адресу.
-		*(arr + i) = rand() % 100;
+		Random(arr[i]);
 	}
 }
 template<typename T>void FillRand(T** arr, const int m, const int n)
@@ -305,4 +316,5 @@ template<typename T>void push_col_back(T** arr, const int m, int& n)
 		arr[i] = buffer;
 	}
 	n++;
+	
 }
