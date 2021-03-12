@@ -1,4 +1,5 @@
 ﻿#include<iostream>
+#include
 //using namespace std;
 
 using std::cin;
@@ -6,28 +7,29 @@ using std::cout;
 using std::endl;
 
 #define tab "\t"
+template<typename T>T** Allocate(const int m, const int n);
+template<typename T>void Clear(T** arr, const int m);
 
-int** Allocate(const int m, const int n);
-void Clear(int** arr, const int m);
 
-void FillRand(int* arr, const int n);
-void FillRand(int** arr, const int m, const int n);
-void Print(int arr[], const int n);
-void Print(int** arr, const int m, const int n);
+
+template<typename T>void FillRand(T* arr, const int n);
+template<typename T>void FillRand(T** arr, const int m, const int n);
+template<typename T>void Print(T arr[], const int n);
+template<typename T>void Print(T** arr, const int m, const int n);
 
 //Добавление элементов
-int* push_back(int arr[], int& n, int value);
-int* push_front(int arr[], int& n, int value);
+template<typename T>T* push_back(T arr[], int& n, int value);
+template<typename T>T* push_front(T arr[], int& n, int value);
 
-//Удавление элементов:
-int* pop_back(int arr[], int& n);
-int* pop_front(int arr[], int& n);
+//Удаление элементов:
+template<typename T>T* pop_back(T arr[], int& n);
+template<typename T>T* pop_front(T arr[], int& n);
 
 ////////////////////////////////////////////////////////////////////////
-int** push_row_back(int** arr, int& m, const int n);	//Добавление строки в конец массива
-int** push_row_front(int** arr, int& m, const int n);	//Добавление строки в начало массива
+template<typename T>T** push_row_back(T** arr, int& m, const int n);	//Добавление строки в конец массива
+template<typename T>T** push_row_front(T** arr, int& m, const int n);	//Добавление строки в начало массива
 
-void push_col_back(int** arr, const int m, int& n);
+template<typename T>void push_col_back(T** arr, const int m, int& n);
 
 //#define DYNAMIC_MEMORY_1
 #define DYNAMIC_MEMORY_2
@@ -89,7 +91,7 @@ void main()
 	////////////////////////		ОБЪЯВЛЕНИЕ МАССИВА		//////////////////////////
 	//////////////////////////////////////////////////////////////////////////////////
 
-	int** arr = Allocate(m, n);
+	double** arr = Allocate<double>(m, n);
 
 	//////////////////////////////////////////////////////////////////////////////////
 	///////////////////////		ИСПОЛЬЗОВАНИЕ МАССИВА		//////////////////////////
@@ -123,19 +125,18 @@ void main()
 
 	cout << "That's okey" << endl;
 }
-
-int** Allocate(const int m, const int n)
+template<typename T>T** Allocate(const int m, const int n)
 {
 	//1) Создаем массив указателей:
-	int** arr = new int* [m];
+	T** arr = new T* [m];
 	//2) Выделяем память под строки:
 	for (int i = 0; i < m; i++)
 	{
-		arr[i] = new int[n] {};
+		arr[i] = new T[n] {};
 	}
 	return arr;
 }
-void Clear(int** arr, const int m)
+template<typename T>void Clear(T** arr, const int m)
 {
 	//1) Удаляем строки двумерного массива:
 	for (int i = 0; i < m; i++)
@@ -145,7 +146,7 @@ void Clear(int** arr, const int m)
 	//2) Удаляем массив указателей:
 	delete[] arr;
 }
-void FillRand(int* arr, const int n)
+template<typename T>void FillRand(T* arr, const int n)
 {
 	for (int i = 0; i < n; i++)
 	{
@@ -153,7 +154,7 @@ void FillRand(int* arr, const int n)
 		*(arr + i) = rand() % 100;
 	}
 }
-void FillRand(int** arr, const int m, const int n)
+template<typename T>void FillRand(T** arr, const int m, const int n)
 {
 	for (int i = 0; i < m; i++)
 	{
@@ -163,7 +164,7 @@ void FillRand(int** arr, const int m, const int n)
 		}
 	}
 }
-void Print(int arr[], const int n)
+template<typename T>void Print(T arr[], const int n)
 {
 	//cout << "Размер массива: " << sizeof(arr) << endl;
 	for (int i = 0; i < n; i++)
@@ -173,7 +174,7 @@ void Print(int arr[], const int n)
 	}
 	cout << endl;
 }
-void Print(int** arr, const int m, const int n)
+template<typename T>void Print(T** arr, const int m, const int n)
 {
 	for (int i = 0; i < m; i++)
 	{
@@ -185,13 +186,13 @@ void Print(int** arr, const int m, const int n)
 	}
 }
 
-int* push_back(int arr[], int& n, int value)
+template<typename T>T* push_back(T arr[], int& n, int value)
 {
 	//////////////////////////////////////////////////////////////////////
 	////////////	ДОБАВЛЕНИЕ ЗНАЧЕНИЯ В КОНЕЦ МАССИВА:	//////////////
 	//////////////////////////////////////////////////////////////////////
 	//1)Создаем буферный массив нужного размера (на 1 элемент больше), это будет наш новый массив:
-	int* buffer = new int[n + 1];
+	T* buffer = new T[n + 1];
 	//2)Копируем значения из исходного массива в буферный:
 	for (int i = 0; i < n; i++)
 	{
@@ -210,9 +211,9 @@ int* push_back(int arr[], int& n, int value)
 	//7)Mission complete - значение добавлено :-)
 	return arr;
 }
-int* push_front(int arr[], int& n, int value)
+template<typename T>T* push_front(T arr[], int& n, int value)
 {
-	int* buffer = new int[n + 1];
+	T* buffer = new T[n + 1];
 	for (int i = 0; i < n; i++)
 	{
 		buffer[i + 1] = arr[i];
@@ -225,9 +226,9 @@ int* push_front(int arr[], int& n, int value)
 }
 
 //Удавление элементов:
-int* pop_back(int arr[], int& n)
+template<typename T>T* pop_back(T arr[], int& n)
 {
-	int* buffer = new int[--n];
+	T* buffer = new T[--n];
 	for (int i = 0; i < n; i++)
 	{
 		buffer[i] = arr[i];
@@ -235,18 +236,18 @@ int* pop_back(int arr[], int& n)
 	delete[] arr;
 	return buffer;
 }
-int* pop_front(int* arr, int& n)
+template<typename T>T* pop_front(T arr[], int& n)
 {
-	int* buffer = new int[--n];
+	T* buffer = new T[--n];
 	for (int i = 0; i < n; i++)	buffer[i] = arr[i + 1];
 	delete[] arr;
 	return buffer;
 }
 
-int** push_row_back(int** arr, int& m, const int n)
+template<typename T>T** push_row_back(T** arr, int& m, const int n)
 {
 	//1) Создаем буферный массив:
-	int** buffer = new int* [m + 1];
+	T** buffer = new T* [m + 1];
 	//2) Копируем адреса существующих строк в новый массив указателей:
 	for (int i = 0; i < m; i++)
 		buffer[i] = arr[i];
@@ -266,36 +267,36 @@ int** push_row_back(int** arr, int& m, const int n)
 	delete[] arr;
 	arr = buffer;
 	//4) Создаем последнюю строку массива:
-	buffer[m] = new int[n] {};
+	buffer[m] = new T[n] {};
 	//5)Увеличиваем количество строк:
 	m++;
 	//6)Возвращаем адрес нового массива на место вызова:
 	return buffer;
 }
 
-int** push_row_front(int** arr, int& m, const int n)
+template<typename T>T** push_row_front(T** arr, int& m, const int n)
 {
 	//1)Создаем буферный массив указателей нужного размера:
-	int** buffer = new int* [m + 1];
+	T** buffer = new T* [m + 1];
 	//2)Копируем адреса строк в новый массив:
 	for (int i = 0; i < m; i++)
 		buffer[i + 1] = arr[i];
 	//3)Удаляем исходный массив указателей:
 	delete[] arr;
 	//4)Создаем нулевую строку массива:
-	buffer[0] = new int[n] {};
+	buffer[0] = new T[n] {};
 	//5)Увеличиваем количество строк:
 	m++;
 	//6)Возвращаем новый массив:
 	return buffer;
 }
 
-void push_col_back(int** arr, const int m, int& n)
+template<typename T>void push_col_back(T** arr, const int m, int& n)
 {
 	for (int i = 0; i < m; i++)
 	{
 		//1)Создаем буферную строку:
-		int* buffer = new int[n + 1]{};
+		T* buffer = new T[n + 1]{};
 		//2)Копируем исходную строку массива в буферную:
 		for (int j = 0; j < n; j++)buffer[j] = arr[i][j];
 		//3)Удаляем исходную строку:
